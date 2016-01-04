@@ -3,7 +3,16 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+  <section>
+    <div id='chat'></div>
+    <input id='name' placeholder="Please Enter your name!!"/>
+    <input id="input" disabled="disabled"/>
+    <select id='users'>
+      <option value="">All Users</option>
+    </select>
+  </section>
   <script type="text/javascript" src="http://localhost:4568/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="underscore.js"></script>
   <script>
     window.onload = function() {
       var Chat = function() {
