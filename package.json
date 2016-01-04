@@ -1,0 +1,23 @@
+{
+  "name": "chit-chat",
+  "version": "1.0.0",
+  "description": "realtime chat room for users",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joksina/chit-chat.git"
+  },
+  "author": "aj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joksina/chit-chat/issues"
+  },
+  "homepage": "https://github.com/joksina/chit-chat#readme",
+  "dependencies": {
+    "socket.io": "latest"
+  }
+}
