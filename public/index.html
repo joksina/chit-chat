@@ -13,6 +13,24 @@
   </section>
   <script type="text/javascript" src="http://localhost:4568/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="underscore.js"></script>
+  <script type="text/javascript">
+    var addEventListener = function (obj, event, func) {
+      if (obj.addEventListener) {
+        obj.addEventListener(event, func, false);
+        return true;
+      } else if(obj.attachEvent) {
+        return obj.attachEvent('on' + event, func);
+      }
+    };
+    var randomColor = function () {
+      var character = '0123456789ABCDEF'.split('');
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += character[Math.round(Math.random() * 15)];
+      }
+      return color;
+    }
+  </script>
   <script>
     window.onload = function() {
       var Chat = function() {
@@ -20,5 +38,6 @@
       }()
     }
   </script>
+
 </body>
 </html>

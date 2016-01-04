@@ -62,4 +62,6 @@ var setUser = function (id, name) {
   });
 };
 
+//add event listener
+
 console.log('Server running at http://127.0.0.1:' + port);
