@@ -1,7 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var express = require('express');
-var port = (process.env.PORT || 4568);
+var port = (process.env.PORT || 4568, '127.0.0.1');
 
 var html = fs.readFileSync(__dirname + '/public/index.html', {encoding: 'utf8'});
 var css = fs.readFileSync(__dirname + '/public/styles.css', {encoding: 'utf8'});
