@@ -19,7 +19,7 @@ var app = http.createServer(function (request, response) {
     response.end(html);
   }
 
-}).listen(port, '127.0.0.1');
+}).listen(port);
 
 var io = require('socket.io').listen(app);
 
