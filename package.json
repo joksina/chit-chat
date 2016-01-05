@@ -11,6 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/joksina/chit-chat.git"
   },
+  "keywords": [
+    "emoji",
+    "jquery",
+    "picker"
+  ],
   "author": "aj",
   "license": "ISC",
   "bugs": {

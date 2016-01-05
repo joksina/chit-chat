@@ -1,50 +1,37 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="jquery.js"></script>
-    <script type="text/javascript" src="js/jquery.emojipicker.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.a.css">
-  <script type="text/javascript" src="js/jquery.emojipicker.a.js"></script>
-  </head>
+    <link rel="stylesheet" type="text/css" href="https://rawgit.com/wedgies/jquery-emoji-picker/master/css/jquery.emojipicker.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/wedgies/jquery-emoji-picker/master/js/jquery.emojipicker.js"></script>
+
+<!-- Emoji Data -->
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/wedgies/jquery-emoji-picker/master/css/jquery.emojipicker.a.css">
+<script type="text/javascript" src="https://rawgit.com/wedgies/jquery-emoji-picker/master/js/jquery.emojipicker.a.js"></script>
+</head>
   <body>
     <section>
       <div id="chat"></div>
       <input type="text" id="name" placeholder="Enter Your Name">
-      <input type="text" id="input" disabled="disabled" id="input-default">
+      <input type="text" id="input" disabled="disabled" placeholder="Your Message" class="emojiable-option">
       <select id="users">
         <option value="">all Users</option>          
       </select>
     </section>
     <script src="http://127.0.0.1:4568/socket.io/socket.io.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(e) {
-
-      $('#text-custom-trigger').emojiPicker({
-        width: '300px',
-        height: '200px',
-        button: false
-      });
-      
-      $('#input-default').emojiPicker();
-
-      $('#input-custom-size').emojiPicker({
-        width: '300px',
-        height: '200px'
+    $(document).ready(function(e) {
+      $('.emojiable-option').emojiPicker({
+        position: "right"
       });
 
-      $('#input-left-position').emojiPicker({
-        position: 'left'
-      });
-
-      $('#trigger').click(function(e) {
+      $('#input').click(function(e) {
         e.preventDefault();
-        $('#text-custom-trigger').emojiPicker('toggle');
+        $('#input').emojiPicker('toggle');
       });
 
     });
-    </script>
+  </script>
     <script>
       var addEventListener = function(obj, e, func) {
         if (obj.addEventListener) {
@@ -76,7 +63,7 @@
             color = randomColors();
 
           var send = function(message) {
-            var username = name.value == '' ? '' : '<strong>' + name.value + ': </strong>';
+            var username = name.value === '' ? '' : '<strong>' + name.value + ': </strong>';
             socket.emit('send', { 
               message: '<span style="color:' + color + '">' + username + message + '</span>',
               username: name.value,
