@@ -2,6 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var express = require('express');
 var port = (process.env.PORT || 4568);
+var host = process.env.IP || '0.0.0.0';
 
 var html = fs.readFileSync(__dirname + '/public/index.html', {encoding: 'utf8'});
 var css = fs.readFileSync(__dirname + '/public/styles.css', {encoding: 'utf8'});
@@ -19,7 +20,9 @@ var app = http.createServer(function (request, response) {
     response.end(html);
   }
 
-}).listen(port);
+}).listen(port, host, function() {
+  console.log("hostin" + port);
+});
 
 var io = require('socket.io').listen(app);
 
@@ -61,4 +64,4 @@ var setUsers = function(id, name) {
   });
 };
 
-console.log('Server running at http://127.0.0.1:' + port);
+// console.log('Server running at http://127.0.0.1:' + port);
