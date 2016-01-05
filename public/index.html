@@ -5,7 +5,7 @@
 <body>
   <section>
     <div id='chat'></div>
-    <input id='name' placeholder="Please Enter your name!!"/>
+    <input id='name' placeholder="Enter Your Name"/>
     <input id="input" disabled="disabled"/>
     <select id='users'>
       <option value="">All Users</option>
@@ -14,6 +14,7 @@
   <script type="text/javascript" src="http://localhost:4568/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="underscore.js"></script>
   <script type="text/javascript">
+  //adding event listener from w3c
     var addEventListener = function (obj, event, func) {
       if (obj.addEventListener) {
         obj.addEventListener(event, func, false);
@@ -34,7 +35,30 @@
   <script>
     window.onload = function() {
       var Chat = function() {
-        console.log("i am here");
+        var socket = io.connect('http://localhost:4568');
+        var chat = document.querySelector("#chat");
+        var input = document.querySelector("#input");
+        var name = document.querySelector("#name");
+        var users = document.querySelector("#users");
+        var selectedUser = null;
+        var id = null;
+        var color = randomColor();
+
+        var send = function(message) {
+          var username = name.value == '' ? '' : '<strong>' + name.value + ': </strong>';
+            socket.emit('send', { 
+              message: '<span style="color:' + color + '">' + username + message + '</span>',
+              username: name.value,
+              toUser: users.value,
+              fromUser: id
+            });
+          }
+        var display = function(message) {
+          chat.innerHTML = chat.innerHTML + message + '<br />';
+          chat.scrollTop = chat.scrollHeight;
+        };
+
+
       }()
     }
   </script>

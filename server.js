@@ -1,9 +1,9 @@
 var http = require("http");
 var fs = require('fs');
 var crypto = require('crypto');
+var io = require('socket.io');
 var port = 4568;
 var users = [];
-var io = require('socket.io');
 
 var html = fs.readFileSync(__dirname + "/public/index.html", {encoding: 'utf8'});
 var css = fs.readFileSync(__dirname + "/public/styles.css", {encoding: 'utf8'});
@@ -31,9 +31,10 @@ io.socket.on('connection', function (socket) {
   socket.on('send', function (data) {
     if(data.username !== '') {
       setUser(id, data.username);
-    } else {
-      return alert('please enter your username');
-    }
+      }
+    // } else {
+    //   return alert('please enter your username');
+    // }
     if(data.toUser !== '') {
       _.each(users, function (user) {
         if (user.id === data.toUser || user.id === data.fromUser) {

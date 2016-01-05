@@ -1,10 +1,5 @@
-body, html {
-  background: #FFF;
-  font-family: Georgia;
-  font-size: 20px;
-  background-image: url('bk.jpg');
-}
 section {
+  background: url('bk.jpg');
   padding: 20px;
   width: 680px;
 }
@@ -22,9 +17,9 @@ section:after {
   font-family: Georgia;
 }
 #name {
-  width: 100px;
+  width: 120px;
   float: left;
-  margin: 10px 10px 0 0;
+  margin: 10px 20px 0 0;
   border: solid 1px #C7C7C7;
 }
 #input {
@@ -32,7 +27,7 @@ section:after {
 }
 #chat {
   width: 100%;
-  border-left: solid 1px #BDBDBD;
+  border-left: solid 1px darkgrey;
   padding: 10px;
   font-size: 16px;
   height: 400px;
