@@ -1,7 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var express = require('express');
-var port = (process.env.PORT || 4568);
+var port = (process.env.IP || 4568);
 
 var html = fs.readFileSync(__dirname + '/public/index.html', {encoding: 'utf8'});
 var css = fs.readFileSync(__dirname + '/public/styles.css', {encoding: 'utf8'});
@@ -19,10 +19,7 @@ var app = http.createServer(function (request, response) {
     response.end(html);
   }
 
-})
-app.listen(port, '127.0.0.1', function(){
-  console.log('app running');
-});
+}).listen(port);
 
 var io = require('socket.io').listen(app);
 
