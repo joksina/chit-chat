@@ -1,17 +1,50 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.emojipicker.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.a.css">
+  <script type="text/javascript" src="js/jquery.emojipicker.a.js"></script>
   </head>
   <body>
     <section>
       <div id="chat"></div>
       <input type="text" id="name" placeholder="Enter Your Name">
-      <input type="text" id="input" disabled="disabled">
+      <input type="text" id="input" disabled="disabled" id="input-default">
       <select id="users">
         <option value="">all Users</option>          
       </select>
     </section>
     <script src="http://127.0.0.1:4568/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(e) {
+
+      $('#text-custom-trigger').emojiPicker({
+        width: '300px',
+        height: '200px',
+        button: false
+      });
+      
+      $('#input-default').emojiPicker();
+
+      $('#input-custom-size').emojiPicker({
+        width: '300px',
+        height: '200px'
+      });
+
+      $('#input-left-position').emojiPicker({
+        position: 'left'
+      });
+
+      $('#trigger').click(function(e) {
+        e.preventDefault();
+        $('#text-custom-trigger').emojiPicker('toggle');
+      });
+
+    });
+    </script>
     <script>
       var addEventListener = function(obj, e, func) {
         if (obj.addEventListener) {
