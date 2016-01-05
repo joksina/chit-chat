@@ -1,67 +1,95 @@
 <html>
-<head>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-  <section>
-    <div id='chat'></div>
-    <input id='name' placeholder="Enter Your Name"/>
-    <input id="input" disabled="disabled"/>
-    <select id='users'>
-      <option value="">All Users</option>
-    </select>
-  </section>
-  <script type="text/javascript" src="http://localhost:4568/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="underscore.js"></script>
-  <script type="text/javascript">
-  //adding event listener from w3c
-    var addEventListener = function (obj, event, func) {
-      if (obj.addEventListener) {
-        obj.addEventListener(event, func, false);
-        return true;
-      } else if(obj.attachEvent) {
-        return obj.attachEvent('on' + event, func);
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <section>
+      <div id="chat"></div>
+      <input type="text" id="name" placeholder="Enter Your Name">
+      <input type="text" id="input" disabled="disabled">
+      <select id="users">
+        <option value="">all Users</option>          
+      </select>
+    </section>
+    <script src="http://127.0.0.1:4568/socket.io/socket.io.js"></script>
+    <script>
+      var addEventListener = function(obj, e, func) {
+        if (obj.addEventListener) {
+          obj.addEventListener(e, func, false);
+            return true;
+        } else if (obj.attachEvent) {
+            return obj.attachEvent('on' + e, func);
+        }
+      };
+      var randomColors = function() {
+        var characters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+          color += characters[Math.round(Math.random() * 15)];
+        }
+        return color;
       }
-    };
-    var randomColor = function () {
-      var character = '0123456789ABCDEF'.split('');
-      var color = "#";
-      for (var i = 0; i < 6; i++) {
-        color += character[Math.round(Math.random() * 15)];
-      }
-      return color;
-    }
-  </script>
-  <script>
-    window.onload = function() {
-      var Chat = function() {
-        var socket = io.connect('http://localhost:4568');
-        var chat = document.querySelector("#chat");
-        var input = document.querySelector("#input");
-        var name = document.querySelector("#name");
-        var users = document.querySelector("#users");
-        var selectedUser = null;
-        var id = null;
-        var color = randomColor();
+    </script>
+    <script>
+      window.onload = function() {
+        var Chat = (function() {
+          var socket = io.connect('http://localhost:4568'),
+            chat = document.querySelector("#chat"),
+            input = document.querySelector("#input"),
+            name = document.querySelector("#name"),
+            users = document.querySelector("#users"),
+            selectUser = null,
+            id = null,
+            color = randomColors();
 
-        var send = function(message) {
-          var username = name.value == '' ? '' : '<strong>' + name.value + ': </strong>';
+          var send = function(message) {
+            var username = name.value == '' ? '' : '<strong>' + name.value + ': </strong>';
             socket.emit('send', { 
               message: '<span style="color:' + color + '">' + username + message + '</span>',
               username: name.value,
               toUser: users.value,
               fromUser: id
             });
+          };
+
+          var display = function(message) {
+            chat.innerHTML = chat.innerHTML + message + '<br />';
+            chat.scrollTop = chat.scrollHeight;
           }
-        var display = function(message) {
-          chat.innerHTML = chat.innerHTML + message + '<br />';
-          chat.scrollTop = chat.scrollHeight;
-        };
 
+          addEventListener(input, "keydown", function(e) {
+            if(e.keyCode === 13) {
+              send(input.value);
+              input.value = "";
+            }
+          });
 
-      }()
-    }
-  </script>
+          addEventListener(users, "change", function(e) {
+            selectUser = users.value;
+          });
 
-</body>
+          socket.on('welcome', function (data) {
+            id = data.id;
+            display(data.message);
+            input.removeAttribute("disabled");
+            input.focus();
+          }).on('receive', function (data) {
+            display(data.message);
+          }).on('users', function (data) {
+            var html = '<option value="">All Users</option>';
+            for(var i = 0; i < data.length; i++) {
+              var user = data[i];
+              if(id != user.id) {
+                var username = user.name ? user.name : 'user' + (i+1);
+                var selected = user.id === selectUser ? ' selected="selected"': '';
+                html += '<option value="' + user.id + '"' + selected + '>' + username + '</option>';
+              }
+            }
+            users.innerHTML = html;
+          });
+
+        })();       
+      }
+    </script>
+    </body>
 </html>

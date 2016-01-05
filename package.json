@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/joksina/chit-chat#readme",
   "dependencies": {
+    "express": "^4.13.3",
     "socket.io": "latest",
     "underscore": "^1.8.3"
   }

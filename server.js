@@ -1,68 +1,64 @@
-var http = require("http");
+var http = require('http');
 var fs = require('fs');
-var crypto = require('crypto');
-var io = require('socket.io');
+var express = require('express');
 var port = 4568;
-var users = [];
 
-var html = fs.readFileSync(__dirname + "/public/index.html", {encoding: 'utf8'});
-var css = fs.readFileSync(__dirname + "/public/styles.css", {encoding: 'utf8'});
+var html = fs.readFileSync(__dirname + '/public/index.html', {encoding: 'utf8'});
+var css = fs.readFileSync(__dirname + '/public/styles.css', {encoding: 'utf8'});
+var image = fs.readFileSync(__dirname + '/public/bk.jpg');
 
 var app = http.createServer(function (request, response) {
-  if (request.url === "/index.html") {
-    response.writeHead(200, {'Content-type': 'text/html'});
-    response.end(html);
-  } else {
-    response.writeHead(200, {'Content-type': 'text/css'});
+  if(request.url === '/styles.css') {
+    response.writeHead(200, {'Content-Type': 'text/css'});
     response.end(css);
+  } else if(request.url === '/bk.jpg') {
+    response.writeHead(200, {'Content-Type': 'image/jpg'});
+    response.end(image);
+  } else {
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.end(html);
   }
-});
 
-//listen to the app
-app.listen(port, '127.0.0.1');
-io.listen(app);
+}).listen(port, '127.0.0.1');
 
-//connecting the socket to emmit a welcome message
-io.socket.on('connection', function (socket) {
+var io = require('socket.io').listen(app);
+
+var crypto = require('crypto'),
+  users = [];
+
+io.sockets.on('connection', function (socket) {
   var id = crypto.randomBytes(20).toString('hex');
-  users.push({socket: socket, id: id, name: null});
-  socket.emit('welcome', { message: "Hello, Welcome to Chit Chat", id: id});
-  sendUser();
+  users.push({ socket: socket, id: id, name: null });
+  socket.emit('welcome', { message: 'Welcome To Chit Chat!', id: id });
+  sendUsers();
   socket.on('send', function (data) {
-    if(data.username !== '') {
-      setUser(id, data.username);
+      if(data.username !== '') {
+        setUsers(id, data.username);
       }
-    // } else {
-    //   return alert('please enter your username');
-    // }
-    if(data.toUser !== '') {
-      _.each(users, function (user) {
-        if (user.id === data.toUser || user.id === data.fromUser) {
+      if(data.toUser !== '') {
+        users.forEach(function(user) {
+        if(user.id === data.toUser || user.id === data.fromUser) {
           user.socket.emit('receive', data);
         }
       });
-    } else {
-      io.socket.emit('receive', data);
-    }
+      } else {
+        io.sockets.emit('receive', data);
+      }
   });
 });
 
-//send the users
-var sendUser = function() {
-  io.sockets.emit('users', _.map(users, function (user) {
+var sendUsers = function() {
+  io.sockets.emit('users', users.map(function(user) {
     return { id: user.id, name: user.username };
   }));
 };
-//Creating a funtion to set users
-var setUser = function (id, name) {
-  _.each(users, function (user) {
+var setUsers = function(id, name) {
+  users.forEach(function(user) {
     if(user.id === id) {
       user.username = name;
-      sendUser();
+      sendUsers();
     }
   });
 };
-
-//add event listener
 
 console.log('Server running at http://127.0.0.1:' + port);
