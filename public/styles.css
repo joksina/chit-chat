@@ -7,6 +7,13 @@ body {
 
 }
 
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+
 section {
   padding: 20px;
 }
