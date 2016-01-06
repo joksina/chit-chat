@@ -1,6 +1,5 @@
 <html>
   <head>
-    <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" type="text/css" href="https://rawgit.com/wedgies/jquery-emoji-picker/master/css/jquery.emojipicker.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -17,7 +16,7 @@
       <input type="text" id="name" placeholder="Enter Your Name" required>
       <input type="text" id="input" disabled="disabled" placeholder="Your Message" class="emojiable-option">
       <select id="users">
-        <option value="">all Users</option>          
+        <option value="">Direct Message</option>          
       </select><br>
       <input type="file" id="siofu_input" />
     </section>
@@ -101,7 +100,7 @@
           }).on('receive', function (data) {
             display(data.message);
           }).on('users', function (data) {
-            var html = '<option value="">All Users</option>';
+            var html = '<option value="">Direct Message</option>';
             for(var i = 0; i < data.length; i++) {
               var user = data[i];
               if(id != user.id) {
@@ -112,9 +111,6 @@
             }
             users.innerHTML = html;
           });
-          var uploader = new SocketIOFileUpload(socket);
-          uploader.listenOnInput(document.getElementById("siofu_input"));
-
         })();       
       }
     </script>
