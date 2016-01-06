@@ -7,6 +7,10 @@ body {
 
 }
 
+section {
+  padding: 20px;
+  width: 680px;
+}
 section:after {
   content: " ";
   display: table;
@@ -37,7 +41,7 @@ section:after {
 }
 #chat {
   width: 100%;
-  border-left: solid 1px darkgrey;
+  border-left: solid 2px darkgrey;
   padding: 10px;
   font-size: 25px;
   height: 400px;
