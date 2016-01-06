@@ -14,7 +14,7 @@
       <div id="chat">
     </div>
       <input type="text" id="name" placeholder="Enter Your Name" required>
-      <input type="text" id="input" disabled="disabled" placeholder="Your Message" class="emojiable-option">
+      <input type="text" id="input" placeholder="Your Message" class="emojiable-option">
       <select id="users">
         <option value="">Direct Message</option>          
       </select><br>
@@ -55,15 +55,15 @@
     <script>
       window.onload = function() {
         var Chat = (function() {
-          var socket = io.connect(window.location.port),
-            chat = document.querySelector("#chat"),
-            input = document.querySelector("#input"),
-            siofu_input = document.querySelector("#siofu_input"),
-            name = document.querySelector("#name"),
-            users = document.querySelector("#users"),
-            selectUser = null,
-            id = null,
-            color = randomColors();
+          var socket = io.connect(window.location.port);
+          var chat = document.querySelector("#chat");
+          var input = document.querySelector("#input");
+          var siofu_input = document.querySelector("#siofu_input");
+          var name = document.querySelector("#name");
+          var users = document.querySelector("#users");
+          var selectUser = null;
+          var id = null;
+          var color = randomColors();
 
           var send = function(message) {
             var username = name.value === '' ? '' : '<strong>' + name.value + ': </strong>';
@@ -75,7 +75,7 @@
             });
           };
 
-          var display = function(message) {
+          var show = function(message) {
             chat.innerHTML = chat.innerHTML + message + '<br />';
             chat.scrollTop = chat.scrollHeight;
           }
@@ -91,25 +91,24 @@
             selectUser = users.value;
           });
 
-          socket.on('welcome', function (data) {
+          socket.on('hello', function (data) {
             id = data.id;
-            display(data.message);
-            input.removeAttribute("disabled");
+            show(data.message);
             input.focus();
             siofu_input.focus();
-          }).on('receive', function (data) {
-            display(data.message);
+          }).on('get', function (data) {
+            show(data.message);
           }).on('users', function (data) {
-            var html = '<option value="">Direct Message</option>';
+            var direct = '<option value="">Direct Message</option>';
             for(var i = 0; i < data.length; i++) {
               var user = data[i];
               if(id != user.id) {
                 var username = user.name ? user.name : 'user' + (i+1);
                 var selected = user.id === selectUser ? ' selected="selected"': '';
-                html += '<option value="' + user.id + '"' + selected + '>' + username + '</option>';
+                direct += '<option value="' + user.id + '"' + selected + '>' + username + '</option>';
               }
             }
-            users.innerHTML = html;
+            users.innerHTML = direct;
           });
         })();       
       }

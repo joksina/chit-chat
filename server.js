@@ -33,7 +33,7 @@ var crypto = require('crypto'),
 io.sockets.on('connection', function (socket) {
   var id = crypto.randomBytes(20).toString('hex');
   users.push({ socket: socket, id: id, name: null });
-  socket.emit('welcome', { message: 'Welcome To Chit Chat!', id: id });
+  socket.emit('hello', { message: 'Welcome To Chit Chat!', id: id });
   sendUsers();
   socket.on('send', function (data) {
       if(data.username !== '') {
@@ -42,11 +42,11 @@ io.sockets.on('connection', function (socket) {
       if(data.toUser !== '') {
         users.forEach(function(user) {
         if(user.id === data.toUser || user.id === data.fromUser) {
-          user.socket.emit('receive', data);
+          user.socket.emit('get', data);
         }
       });
       } else {
-        io.sockets.emit('receive', data);
+        io.sockets.emit('get', data);
       }
   });
 });
