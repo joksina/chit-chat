@@ -69,7 +69,7 @@
           var color = randomColors();
 
           var send = function(message) {
-            var username = name.value === '' ? 'anonymous : ' : '<strong>' + name.value + ': </strong>';
+            var username = name.value === '' ? '<b>anonymous: </b>' : '<strong>' + name.value + ': </strong>';
             socket.emit('send', { 
               message: '<span style="color:' + color + '">' + username + message + '</span>',
               username: name.value,
