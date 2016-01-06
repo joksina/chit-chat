@@ -22,7 +22,7 @@ var app = http.createServer(function (request, response) {
   }
 
 }).listen(port, host, function() {
-  console.log("hostin" + port);
+  console.log("hosting " + port);
 });
 
 var io = require('socket.io').listen(app);
