@@ -19,7 +19,7 @@
       <select id="users">
         <option value="">all Users</option>          
       </select><br>
-      <button>upload file</button>
+      <input type="file" id="siofu_input" />
     </section>
     <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
     <script type="text/javascript">
@@ -56,9 +56,10 @@
     <script>
       window.onload = function() {
         var Chat = (function() {
-          var socket = io.connect('http://localhost:4568'),
+          var socket = io.connect(window.location.port),
             chat = document.querySelector("#chat"),
             input = document.querySelector("#input"),
+            siofu_input = document.querySelector("#siofu_input"),
             name = document.querySelector("#name"),
             users = document.querySelector("#users"),
             selectUser = null,
@@ -96,6 +97,7 @@
             display(data.message);
             input.removeAttribute("disabled");
             input.focus();
+            siofu_input.focus();
           }).on('receive', function (data) {
             display(data.message);
           }).on('users', function (data) {
@@ -110,6 +112,8 @@
             }
             users.innerHTML = html;
           });
+          var uploader = new SocketIOFileUpload(socket);
+          uploader.listenOnInput(document.getElementById("siofu_input"));
 
         })();       
       }

@@ -3,6 +3,7 @@ var fs = require('fs');
 var express = require('express');
 var port = (process.env.PORT || 4568);
 var host = process.env.IP || '0.0.0.0';
+var SocketIOFileUpload = require('socketio-file-upload');
 
 var html = fs.readFileSync(__dirname + '/public/index.html', {encoding: 'utf8'});
 var css = fs.readFileSync(__dirname + '/public/styles.css', {encoding: 'utf8'});
