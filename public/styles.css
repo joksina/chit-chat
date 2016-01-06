@@ -9,7 +9,6 @@ body {
 
 section {
   padding: 20px;
-  width: 680px;
 }
 section:after {
   content: " ";
