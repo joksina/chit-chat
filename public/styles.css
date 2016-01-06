@@ -44,7 +44,7 @@ section:after {
   padding: 10px;
   font-size: 25px;
   height: 400px;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 select {
